@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* page background */
+  --cream:        #FFFDD0;
+  /* card / section-alt background (a shade of cream) */
+  --cream-deep:   #F5EFB8; 
+  /* ink, nav, headlines */
+  --pine:        #2F4842;   
+  /* secondary ink on dark surfaces */
+  --pine-soft:   #46615A;   
+  /* body copy, borders, dividers */
+  --coffee:       #5B3D2E;   
+  /* muted copy / captions */
+  --coffee-soft:  #8A6B58;   
+  /* links, CTAs, accents ONLY */
+  --terracotta:   #D65F43;   
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-coffee: var(--coffee);
+  --color-coffee-soft: var(--coffee-soft);
+  --color-terracotta: var(--terracotta);
+
+  --font-serif: var(--font-fraunces), serif;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-mono), monospace;
+
+  --color-background: var(--cream);
+  --color-foreground: var(--pine);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--pine);
+    --foreground: var(--cream);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Explicitly set the custom font variable as the global base */
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@keyframes rise {
+  0%   { transform: translateY(0) scaleX(1); opacity: 0.55; }
+  50%  { transform: translateY(-14px) scaleX(1.15); opacity: 0.9; }
+  100% { transform: translateY(-30px) scaleX(0.9); opacity: 0; }
+}
+
+.steam span {
+  animation: rise 3.2s ease-in-out infinite;
+}
+.steam span:nth-child(2) { animation-delay: 0.6s; }
+.steam span:nth-child(3) { animation-delay: 1.2s; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steam span, .marquee-track { animation: none !important; }
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #D65F43;
+  outline-offset: 3px;
 }

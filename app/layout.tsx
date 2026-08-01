@@ -1,15 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono  } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+
+// 1. Fraunces (Variable font with custom axes: opsz, weights, and italics)
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  // axes: ['opsz'], // Required since opsz is specified in your link
+  weight: ['300', '500', '600'], 
+  style: ['normal', 'italic'],
+  variable: '--font-fraunces',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// 2. Inter (Standard weights)
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+// 3. JetBrains Mono (Standard weights)
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -25,7 +42,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
