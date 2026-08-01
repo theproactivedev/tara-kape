@@ -7,6 +7,7 @@ import Image from "next/image";
 import { BEANS } from '@/lib/constants';
 import RoastDots from "@/components/RoastDots";
 import LogoPine from '@/public/logo-pine.svg';
+import LogoWhite from '@/public/logo-white.svg';
 import Link from "next/link";
 
 
@@ -242,7 +243,7 @@ export default function Home() {
       </section>
 
       {/* ================= PROCESS / RITUAL ================= */}
-      <section className="px-6 py-20 md:py-28" style={{ backgroundColor: "#2F4842" }}>
+      <section className="px-6 py-20 md:py-28 bg-pine">
         <div className="mx-auto max-w-6xl">
           <p className="font-mono text-xs uppercase tracking-widest text-terracotta">
             From cherry to cup
@@ -258,14 +259,14 @@ export default function Home() {
               { step: "03", title: "Roast", copy: "Small 12kg batches, roasted to the bean's own logic, not a template." },
               { step: "04", title: "Ship", copy: "Bagged and mailed within 48 hours of leaving the drum." },
             ].map((s) => (
-              <div key={s.step} className="border-t pt-5" style={{ borderColor: "#FFFDD033" }}>
-                <span className="font-mono text-sm" style={{ color: "#D65F43" }}>
+              <div key={s.step} className="border-t pt-5 border-cream/33">
+                <span className="font-mono text-sm bg-terracotta">
                   {s.step}
                 </span>
-                <h3 className="font-serif mt-3 text-xl" style={{ color: "#FFFDD0" }}>
+                <h3 className="font-serif mt-3 text-xl text-cream">
                   {s.title}
                 </h3>
-                <p className=" mt-2 text-sm leading-relaxed" style={{ color: "#FFFDD0AA" }}>
+                <p className=" mt-2 text-sm leading-relaxed text-cream">
                   {s.copy}
                 </p>
               </div>
@@ -276,11 +277,11 @@ export default function Home() {
 
       {/* ================= QUOTE ================= */}
       <section className="mx-auto max-w-3xl px-6 py-24 text-center md:py-32">
-        <p className="font-serif text-3xl leading-snug tracking-tight md:text-4xl" style={{ color: "#2F4842" }}>
+        <p className="font-serif text-3xl leading-snug tracking-tight md:text-4xl text-pine">
           &ldquo;First bag I&apos;ve bought that tastes like the tasting notes
           actually promised.&rdquo;
         </p>
-        <p className=" mt-6 text-sm" style={{ color: "#5B3D2E" }}>
+        <p className=" mt-6 text-sm text-coffee">
           — Priya M., subscriber since Batch No. 178
         </p>
       </section>
@@ -288,14 +289,13 @@ export default function Home() {
       {/* ================= NEWSLETTER ================= */}
       <section className="px-6 pb-24">
         <div
-          className="mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl px-8 py-14 text-center md:flex-row md:justify-between md:text-left"
-          style={{ backgroundColor: "#F5EFB8" }}
+          className="mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl px-8 py-14 text-center md:flex-row md:justify-between md:text-left bg-cream-deep"
         >
           <div>
-            <h3 className="font-serif text-2xl" style={{ color: "#2F4842" }}>
+            <h3 className="font-serif text-2xl text-pine">
               Get first dibs on new roasts.
             </h3>
-            <p className=" mt-1 text-sm" style={{ color: "#5B3D2E" }}>
+            <p className=" mt-1 text-sm text-coffee">
               One email a week, sent the morning we roast. No spam, ever.
             </p>
           </div>
@@ -308,13 +308,11 @@ export default function Home() {
               type="email"
               required
               placeholder="you@example.com"
-              className="focus-ring  w-full rounded-full border bg-white/60 px-4 py-2.5 text-sm"
-              style={{ borderColor: "#5B3D2E44", color: "#2F4842" }}
+              className="focus-ring  w-full rounded-full border bg-white/60 px-4 py-2.5 text-sm border-coffee/44 text-pine"
             />
             <button
               type="submit"
-              className="focus-ring shrink-0 rounded-full px-5 py-2.5  text-sm font-semibold text-white"
-              style={{ backgroundColor: "#D65F43" }}
+              className="focus-ring shrink-0 rounded-full px-5 py-2.5  text-sm font-semibold text-white bg-terracotta"
             >
               Subscribe
             </button>
@@ -323,17 +321,15 @@ export default function Home() {
       </section>
 
       {/* ================= FOOTER ================= */}
-      <footer className="px-6 pb-10 pt-14" style={{ backgroundColor: "#2F4842" }}>
+      <footer className="px-6 pb-10 pt-14 bg-pine">
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-4">
           <div>
             <div className="flex items-center gap-2">
-              <Coffee className="h-5 w-5" style={{ color: "#D65F43" }} />
-              <span className="font-serif text-lg" style={{ color: "#FFFDD0" }}>
-                Kettle &amp; Bloom
-              </span>
+              <Coffee className="h-7 w-7 text-terracotta" />
+              <Image src={LogoWhite} alt="Tara Kape's Logo" />
             </div>
-            <p className=" mt-3 text-sm" style={{ color: "#FFFDD099" }}>
-              Small-batch coffee, roasted weekly in Antipolo.
+            <p className=" mt-3 text-sm text-cream/99">
+              Small-batch coffee, roasted weekly in Antipolo
             </p>
           </div>
 
@@ -343,13 +339,13 @@ export default function Home() {
             { title: "Follow", links: ["Instagram", "TikTok", "Newsletter"] },
           ].map((col) => (
             <div key={col.title}>
-              <p className="font-mono text-xs uppercase tracking-wider" style={{ color: "#D65F43" }}>
+              <p className="font-mono text-xs uppercase tracking-wider text-terracotta">
                 {col.title}
               </p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="focus-ring  text-sm" style={{ color: "#FFFDD0CC" }}>
+                    <a href="#" className="focus-ring text-sm text-cream">
                       {l}
                     </a>
                   </li>
@@ -360,10 +356,9 @@ export default function Home() {
         </div>
 
         <div
-          className="mx-auto mt-12 max-w-6xl border-t pt-6  text-xs"
-          style={{ borderColor: "#FFFDD022", color: "#FFFDD077" }}
+          className="mx-auto mt-12 max-w-6xl border-t pt-6 text-xs border-cream/22 text-cream/77"
         >
-          © {new Date().getFullYear()} Kettle &amp; Bloom Coffee Co.
+          © {new Date().getFullYear()} Tara Kape
         </div>
       </footer>
     </div>
