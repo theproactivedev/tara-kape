@@ -208,7 +208,7 @@ export default function Home() {
                   {bean.name}
                 </h3>
                 <p className=" mt-1 text-sm text-coffee">
-                  {bean.origin} · {bean.altitude}
+                  {bean.origin}
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
