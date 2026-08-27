@@ -2,10 +2,8 @@ import { Document, Schema, models, model } from 'mongoose';
 
 export interface IUser extends Document {
     name: string;
-    emailAddress: string;
-    password: string;
-    address: string;
-    postalCode: string;
+    email: string;
+    passwordHash: string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -16,29 +14,22 @@ const userSchema = new Schema<IUser>(
             trim: true,
             maxLength: [100, 'Name cannot exceed 100 characters'],
         },
-        emailAddress: {
+        email: {
             type: String,
             required: [true, 'Email address is required'],
             trim: true,
+            lowercase: true,
+            unique: true,
         },
-        password: {
+        passwordHash: {
             type: String,
             required: [true, 'Password is required'],
-            trim: true,
-        },
-        address: {
-            type: String,
-            // required: [true, 'Address is required'],
-            trim: true,
-        },
-        postalCode: {
-            type: String,
-            // required: [true, 'Postal code is required'],
-            trim: true,
+            select: false,
         },
     },
     {
-        timestamps: true
+        timestamps: true,
+        collection: 'users'
     }
 );
 

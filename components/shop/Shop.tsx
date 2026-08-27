@@ -3,8 +3,11 @@ import Image from 'next/image';
 import React from 'react';
 
 import RoastDots from '../RoastDots';
+import AddToBagLink from './AddToBagLink';
+import { useSession } from 'next-auth/react';
 
 const Shop: React.FC = () => {
+  const { data: session } = useSession();
   return (
     <section id="shop" className="mx-auto max-w-6xl px-6 py-20 md:py-28">
       <div className="mb-12 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
@@ -59,9 +62,13 @@ const Shop: React.FC = () => {
                 <span className="text-pine font-serif text-lg">
                   {bean.price} <span className="text-coffee/99 text-xs">/ 12oz</span>
                 </span>
-                <a href="#" className="focus-ring text-terracotta rounded-sm text-sm font-semibold">
-                  Add to bag →
-                </a>
+                {session
+                  ? (
+                    <a href="#" className="focus-ring text-terracotta rounded-sm text-sm font-semibold">
+                      Add to bag →
+                    </a>
+                  ) : <AddToBagLink />
+                }
               </div>
             </div>
           </div>
