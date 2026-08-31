@@ -1,15 +1,18 @@
-import { Coffee, Menu, ShoppingBag, X } from "lucide-react"
-import Image from "next/image"
+'use client';
+
+import { Coffee, Menu, ShoppingBag, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import LogoPine from '@/public/logo-pine.svg';
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
+import { ICartPopulated } from "@/database/cart.model";
 
-const Header = ({ isLoggedIn } : { isLoggedIn: string | undefined }) => {
+const Header = ({ isLoggedIn, cart } : { isLoggedIn: string | undefined, cart: ICartPopulated | undefined }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   
   return (
-    <header className="bg-cream sticky top-0 z-40 border-b border-gray-300 backdrop-blur-sm">
+    <header className="bg-cream sticky top-0 z-40 border-b border-gray-200 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#" className="focus-ring flex items-center gap-2 rounded-sm">
           <Coffee className="text-terracotta mb-1 h-7 w-7" strokeWidth={2} />
@@ -25,9 +28,9 @@ const Header = ({ isLoggedIn } : { isLoggedIn: string | undefined }) => {
                   style={{ color: "#2F4842" }}
                 >
                   <ShoppingBag className="h-4 w-4" />
-                  Bag · 0
+                  Bag · {cart?.items?.length}
                 </button>
-                <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })}>Sign out</Button>
+                <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })} className="hover:bg-terracotta hover:text-white">Sign out</Button>
               </>
             )
             : (

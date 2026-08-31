@@ -3,7 +3,7 @@
 import { SubmitEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
 
-import { registerUser } from '@/lib/actions/registerUser.actions';
+import { registerUser } from '@/lib/actions/registerUser';
 
 interface SignUpFormData {
   name: string;

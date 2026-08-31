@@ -3,7 +3,6 @@ import { Document, models, model, Schema } from 'mongoose';
 export interface IProduct extends Document {
     name: string;
     quantity: number;
-    description: string;
     image: string;
     price: number;
     // Fields added based on lib/constants BEANS
@@ -30,11 +29,6 @@ const productSchema = new Schema<IProduct>(
             type: Number,
             required: [true, 'Quantity is required'],
             min: [0, 'Quantity cannot be negative'],
-        },
-        description: {
-            type: String,
-            trim: true,
-            maxLength: [300, 'Description cannot exceed 300 characters'],
         },
         image: {
             type: String,

@@ -1,22 +1,43 @@
 'use client';
 
-import { useState } from 'react';
-import { Coffee, Menu, X, MapPin } from 'lucide-react';
+import { Coffee, MapPin } from 'lucide-react';
 import Image from 'next/image';
 
 import LogoWhite from '@/public/logo-white.svg';
 import Shop from '@/components/shop/Shop';
-import { useSession } from 'next-auth/react';
 import Header from '@/components/shared/Header';
+import { GetAllProducts, getAllProducts, ProductWithId } from '@/lib/actions/getAllProducts';
+import { getCart, GetCartResult } from '@/lib/actions/getCart';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { ICartPopulated } from '@/database/cart.model';
 
 export default function Home() {
-  const session = useSession();
-  console.log('session', session);
+  const { data: session } = useSession();
+  const [coffeeProducts, setCoffeeProducts] = useState<ProductWithId[] | []>([])
+  const [cart, setCart] = useState<ICartPopulated>({
+    user: '',
+    items: []
+  })
+
+  useEffect(() => {
+    getAllProducts().then((productResult: GetAllProducts) => {
+      if(productResult.success) {
+        setCoffeeProducts(productResult.products || [])
+      }
+    });
+
+    getCart(session?.user?.id as string).then((cartResult: GetCartResult) => {
+      if(cartResult.success) {
+        setCart(cartResult.cart);
+      }
+    });
+  }, []);
 
   return (
     <div className="bg-cream text-pine min-h-screen">
       {/* ================= NAV ================= */}
-      <Header isLoggedIn={session?.data?.user?.id} />
+      <Header isLoggedIn={session?.user?.id} cart={cart} />
 
       {/* ================= HERO ================= */}
       <section className="mx-auto max-w-6xl px-6 pt-14 pb-20 md:pt-20 md:pb-28">
@@ -112,7 +133,7 @@ export default function Home() {
       </div>
 
       {/* ================= FEATURED BEANS ================= */}
-      <Shop />
+      <Shop products={coffeeProducts ?? []} userId={session?.user?.id} />
 
       {/* ================= PROCESS / RITUAL ================= */}
       <section className="bg-pine px-6 py-20 md:py-28">
@@ -175,7 +196,7 @@ export default function Home() {
               One email a week, sent the morning we roast. No spam, ever.
             </p>
           </div>
-          <form className="flex w-full max-w-sm gap-2" onSubmit={(e) => e.preventDefault()}>
+          <form className="flex w-full max-w-sm gap-2">
             <label htmlFor="email" className="sr-only">
               Email address
             </label>

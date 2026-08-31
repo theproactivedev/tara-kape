@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
         pathname: '/**', // Allows all image paths from Unsplash
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };
