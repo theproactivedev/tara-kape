@@ -6,11 +6,15 @@ import { useState } from "react";
 import LogoPine from '@/public/logo-pine.svg';
 import { Button } from "../ui/button";
 import { signOut } from "next-auth/react";
-import { ICartPopulated } from "@/database/cart.model";
+import { useCartStore } from '@/store/cartStore';
 
-const Header = ({ isLoggedIn, cart } : { isLoggedIn: string | undefined, cart: ICartPopulated | undefined }) => {
+const Header = ({ isLoggedIn } : { isLoggedIn: string | undefined }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  
+  const cart = useCartStore((state) => state.cart);
+  const itemCount = cart?.items?.length
+  ? cart.items.reduce((total, item) => total + item.quantity, 0)
+  : 0;
+
   return (
     <header className="bg-cream sticky top-0 z-40 border-b border-gray-200 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -28,7 +32,7 @@ const Header = ({ isLoggedIn, cart } : { isLoggedIn: string | undefined, cart: I
                   style={{ color: "#2F4842" }}
                 >
                   <ShoppingBag className="h-4 w-4" />
-                  Bag · {cart?.items?.length}
+                  Bag · {itemCount}
                 </button>
                 <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })} className="hover:bg-terracotta hover:text-white">Sign out</Button>
               </>
@@ -40,7 +44,7 @@ const Header = ({ isLoggedIn, cart } : { isLoggedIn: string | undefined, cart: I
               </>
             )
           }
-          
+
           {/* <GitHubAuthBtn /> */}
         </div>
 
@@ -62,7 +66,7 @@ const Header = ({ isLoggedIn, cart } : { isLoggedIn: string | undefined, cart: I
               </a>
             ))}
             <a href="#" className="text-pine text-sm font-medium">
-              Bag · 0
+              Bag · {itemCount}
             </a>
           </div>
         </div>

@@ -8,7 +8,7 @@ import AddToBagLink from './AddToBagLink';
 import { Button } from '../ui/button';
 import { addToCart } from '@/lib/actions/addToCart';
 import type { ProductWithId } from '@/lib/actions/getAllProducts';
-// import { getCart } from '@/lib/actions/getCart';
+import { useCartStore } from '@/store/cartStore';
 
 type ShopProps = {
   products: ProductWithId[];
@@ -16,6 +16,8 @@ type ShopProps = {
 };
 
 const Shop: React.FC<ShopProps> = ({ products, userId }) => {
+  const refreshCart = useCartStore((state) => state.refreshCart);
+
   const handleAddToCart = async (bean: ProductWithId) => {
     const productId = bean.id ?? bean._id;
 
@@ -24,12 +26,7 @@ const Shop: React.FC<ShopProps> = ({ products, userId }) => {
     }
 
     await addToCart(userId, productId);
-
-    // ToDo: getCart again and update state
-    // const cartResult = await getCart(userId);
-    // if(cartResult.success) {
-
-    // }
+    await refreshCart(userId);
   };
 
   if (!products.length) {

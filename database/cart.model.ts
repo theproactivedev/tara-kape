@@ -1,7 +1,8 @@
 import { HydratedDocument, Schema, Types, model, models } from 'mongoose';
+import { IProduct } from './product.model';
 
 export interface ICartItem {
-  product: string;
+  product: string | Types.ObjectId | IProduct;
   quantity: number;
   priceAtAdd: number;
 }

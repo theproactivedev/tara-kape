@@ -7,37 +7,29 @@ import LogoWhite from '@/public/logo-white.svg';
 import Shop from '@/components/shop/Shop';
 import Header from '@/components/shared/Header';
 import { GetAllProducts, getAllProducts, ProductWithId } from '@/lib/actions/getAllProducts';
-import { getCart, GetCartResult } from '@/lib/actions/getCart';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { ICartPopulated } from '@/database/cart.model';
+import { useCartStore } from '@/store/cartStore';
 
 export default function Home() {
   const { data: session } = useSession();
-  const [coffeeProducts, setCoffeeProducts] = useState<ProductWithId[] | []>([])
-  const [cart, setCart] = useState<ICartPopulated>({
-    user: '',
-    items: []
-  })
+  const [coffeeProducts, setCoffeeProducts] = useState<ProductWithId[] | []>([]);
+  const refreshCart = useCartStore((state) => state.refreshCart);
 
   useEffect(() => {
     getAllProducts().then((productResult: GetAllProducts) => {
-      if(productResult.success) {
-        setCoffeeProducts(productResult.products || [])
+      if (productResult.success) {
+        setCoffeeProducts(productResult.products || []);
       }
     });
 
-    getCart(session?.user?.id as string).then((cartResult: GetCartResult) => {
-      if(cartResult.success) {
-        setCart(cartResult.cart);
-      }
-    });
-  }, []);
+    refreshCart(session?.user?.id);
+  }, [refreshCart, session?.user?.id]);
 
   return (
     <div className="bg-cream text-pine min-h-screen">
       {/* ================= NAV ================= */}
-      <Header isLoggedIn={session?.user?.id} cart={cart} />
+      <Header isLoggedIn={session?.user?.id} />
 
       {/* ================= HERO ================= */}
       <section className="mx-auto max-w-6xl px-6 pt-14 pb-20 md:pt-20 md:pb-28">

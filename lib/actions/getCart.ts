@@ -1,7 +1,7 @@
 'use server';
 
 import connectToDatabase from '@/database/mongodb';
-import Cart, { ICart, ICartItem, ICartPopulated } from '@/database/cart.model';
+import Cart, { ICartPopulated } from '@/database/cart.model';
 
 export type GetCartResult =
   | { success: true; cart: ICartPopulated }
@@ -18,15 +18,18 @@ export async function getCart(userId: string): Promise<GetCartResult> {
 
     await connectToDatabase();
 
-    const cart: ICartPopulated = await Cart.findOne({ user: userId }).populate('items.product').lean();
-    const processedCart = {
-      user: userId,
-      items: cart.items
-    };
+    const cart = await Cart.findOne({ user: userId }).populate('items.product').lean();
+    const plainCart = JSON.parse(JSON.stringify(cart));
+    const processedCart: ICartPopulated = cart
+      ? {
+          user: userId,
+          items: plainCart.items,
+        }
+      : { user: userId, items: [] };
 
     return {
       success: true,
-      cart: cart ? processedCart : { user: userId, items: [] },
+      cart: processedCart,
     };
   } catch (error) {
     console.error('Error fetching cart:', error);
