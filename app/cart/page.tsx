@@ -226,12 +226,12 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <button
-                type="button"
-                className="focus-ring bg-terracotta mt-8 w-full rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
+              <Link
+                href="/checkout"
+                className="focus-ring bg-terracotta mt-8 inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
               >
                 Checkout
-              </button>
+              </Link>
 
               <Link
                 href="/"

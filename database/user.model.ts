@@ -1,10 +1,17 @@
-import { Document, Schema, models, model } from 'mongoose';
+import { Document, Schema, models, model, HydratedDocument } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IUser {
     name: string;
     email: string;
     passwordHash: string;
+    address?: string;
+    city?: string;
+    stateOrProvince?: string;
+    zip?: string;
+    country?: string;
 }
+
+export type UserDocument = HydratedDocument<IUser>;
 
 const userSchema = new Schema<IUser>(
     {
@@ -25,6 +32,26 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: [true, 'Password is required'],
             select: false,
+        },
+        address: {
+            type: String,
+            trim: true,
+        },
+        city: {
+            type: String,
+            trim: true,
+        },
+        stateOrProvince: {
+            type: String,
+            trim: true,
+        },
+        zip: {
+            type: String,
+            trim: true,
+        },
+        country: {
+            type: String,
+            trim: true,
         },
     },
     {
