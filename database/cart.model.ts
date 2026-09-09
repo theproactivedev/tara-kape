@@ -10,6 +10,7 @@ export interface ICartItem {
 interface ICartBase<TProduct = Types.ObjectId> {
   user: string;
   items: { product: TProduct; quantity: number, priceAtAdd: number }[];
+  updatedAt?: Date;
 }
 
 export type ICart = ICartBase; // unpopulated

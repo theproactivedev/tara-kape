@@ -20,6 +20,19 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Stripe webhook setup
+
+Set `STRIPE_WEBHOOK_SECRET` to the signing secret for:
+
+```text
+/api/webhooks/stripe
+```
+
+Subscribe the endpoint to `payment_intent.succeeded`, `payment_intent.payment_failed`,
+and `payment_intent.canceled`. Payment totals are calculated server-side from the
+authenticated user's cart. The persisted cart is cleared only after a verified
+successful-payment webhook; failed and canceled payments preserve the cart for retry.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

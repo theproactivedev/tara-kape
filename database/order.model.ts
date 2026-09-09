@@ -1,5 +1,7 @@
 ﻿import { Document, Schema, models, model, Types } from 'mongoose';
 
+export type OrderPaymentStatus = 'pending' | 'paid' | 'failed' | 'canceled';
+
 /**
  * Subdocument for a product line in an order
  */
@@ -18,6 +20,15 @@ export interface IOrder extends Document {
     products: IOrderProduct[];
     createdAt: Date;
     totalPrice: number;
+    paymentIntentId?: string;
+    paymentStatus: OrderPaymentStatus;
+    amountSubtotal: number;
+    amountShipping: number;
+    amountTax: number;
+    amountTotal: number;
+    currency: string;
+    cartSnapshotHash: string;
+    paidAt?: Date;
 }
 
 /**
@@ -67,7 +78,53 @@ const orderSchema = new Schema<IOrder>(
             index: true,
         },
         products: [OrderProductSchema],  
-        totalPrice: Number,
+        totalPrice: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        paymentIntentId: {
+            type: String,
+            unique: true,
+            sparse: true,
+        },
+        paymentStatus: {
+            type: String,
+            enum: ['pending', 'paid', 'failed', 'canceled'],
+            default: 'pending',
+            required: true,
+        },
+        amountSubtotal: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        amountShipping: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        amountTax: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        amountTotal: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
+        currency: {
+            type: String,
+            required: true,
+            lowercase: true,
+            default: 'usd',
+        },
+        cartSnapshotHash: {
+            type: String,
+            required: true,
+        },
+        paidAt: Date,
     },
     {
         timestamps: true

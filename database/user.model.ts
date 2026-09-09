@@ -4,6 +4,7 @@ export interface IUser {
     name: string;
     email: string;
     passwordHash: string;
+    phoneNumber?: string;
     address?: string;
     city?: string;
     stateOrProvince?: string;
@@ -32,6 +33,10 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: [true, 'Password is required'],
             select: false,
+        },
+        phoneNumber: {
+            type: String,
+            trim: true,
         },
         address: {
             type: String,

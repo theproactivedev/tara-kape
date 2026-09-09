@@ -218,10 +218,14 @@ export default function CartPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Shipping</span>
-                  <span className="text-pine font-medium">Calculated at checkout</span>
+                  <span className="text-pine font-medium">Free</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span>Estimated total</span>
+                  <span>Tax</span>
+                  <span className="text-pine font-medium">$0</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Total</span>
                   <span className="text-pine font-serif text-2xl">{formatPrice(subtotal)}</span>
                 </div>
               </div>

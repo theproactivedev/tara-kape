@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { SubmitEvent, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
@@ -12,6 +13,7 @@ import {
 import { UserDocument } from '@/database/user.model';
 
 const initialFormData: ShippingInformationInput = {
+  phoneNumber: '',
   address: '',
   city: '',
   stateOrProvince: '',
@@ -20,9 +22,11 @@ const initialFormData: ShippingInformationInput = {
 };
 
 export default function CheckoutPage({ user } : { user: UserDocument | null }) {
+  const router = useRouter();
   const { data: session } = useSession();
   const [formData, setFormData] = useState<ShippingInformationInput>(user
     ? {
+      phoneNumber: user.phoneNumber || '',
       address: user.address || '',
       city: user.city || '',
       stateOrProvince: user.stateOrProvince || '',
@@ -62,7 +66,7 @@ export default function CheckoutPage({ user } : { user: UserDocument | null }) {
         setError(result.error);
         return;
       }
-      setSuccess(true);
+      router.push('/payment');
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Something went wrong.');
     } finally {
@@ -124,6 +128,22 @@ export default function CheckoutPage({ user } : { user: UserDocument | null }) {
               </div>
 
               <form className="space-y-5" onSubmit={handleSubmit}>
+                <div>
+                  <label htmlFor="phoneNumber" className="text-coffee mb-2 block text-sm font-medium">
+                    Phone number
+                  </label>
+                  <input
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    type="tel"
+                    autoComplete="tel"
+                    required
+                    value={formData.phoneNumber}
+                    onChange={(event) => handleFieldChange('phoneNumber', event.target.value)}
+                    className="focus-ring border-coffee/44 text-pine w-full rounded-full border bg-white/60 px-4 py-3 text-sm"
+                  />
+                </div>
+
                 <div>
                   <label htmlFor="address" className="text-coffee mb-2 block text-sm font-medium">
                     Address
@@ -233,6 +253,9 @@ export default function CheckoutPage({ user } : { user: UserDocument | null }) {
                 >
                   {isSubmitting ? 'Saving details...' : 'Save shipping information'}
                 </button>
+                <p className="text-coffee-soft text-center text-sm">
+                  After saving shipping information, you'll be redirected to a payment page to complete purchase.
+                </p>
               </form>
             </section>
           </div>
