@@ -225,7 +225,6 @@ export default function Home() {
           {[
             { title: 'Shop', links: ['All beans', 'Subscriptions', 'Gear', 'Gift cards'] },
             { title: 'Learn', links: ['Brew guide', 'Origins', 'Our story', 'FAQ'] },
-            { title: 'Follow', links: ['Instagram', 'TikTok', 'Newsletter'] },
           ].map((col) => (
             <div key={col.title}>
               <p className="text-terracotta font-mono text-xs tracking-wider uppercase">
@@ -234,8 +233,44 @@ export default function Home() {
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
                   <li key={l}>
-                    <a href="#" className="focus-ring text-cream text-sm">
+                    <a href="#" className="focus-ring text-cream text-sm cursor-text">
                       {l}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {[
+            { title: 'Follow', links: [
+              {
+                label: 'LinkedIn',
+                value: 'https://www.linkedin.com/in/eirin-gonzales-5951aa9b/'
+              },
+              {
+                label: 'GitHub',
+                value: 'https://github.com/theproactivedev'
+              },
+              {
+                label: 'Email',
+                value: 'mailto:eiringonzales@gmail.com'
+              },
+              {
+                label: 'Website',
+                value: 'https://eiringonzales.com'
+              }
+            ]},
+          ].map((col) => (
+            <div key={col.title}>
+              <p className="text-terracotta font-mono text-xs tracking-wider uppercase">
+                {col.title}
+              </p>
+              <ul className="mt-4 space-y-2.5">
+                {col.links.map((l) => (
+                  <li key={l.value}>
+                    <a href={l.value} className="focus-ring text-cream hover:text-terracotta text-sm" target="_blank" rel="noopener noreferrer">
+                      {l.label}
                     </a>
                   </li>
                 ))}
