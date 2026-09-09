@@ -7,18 +7,17 @@ import { stripePromise } from '@/lib/stripe/stripe-client';
 import Header from '@/components/shared/Header';
 import StripeCheckoutForm from './StripeCheckoutForm';
 import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
   const [clientSecret, setClientSecret] = useState('');
   const [paymentError, setPaymentError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!session?.user?.id) {
-      return;
-    }
+  if (!session?.user?.id) {
+    return;
+  }
 
+  useEffect(() => {
     const controller = new AbortController();
 
     async function createPaymentIntent() {
@@ -45,10 +44,6 @@ export default function CheckoutPage() {
     createPaymentIntent();
     return () => controller.abort();
   }, [session?.user?.id]);
-
-  if(!session?.user?.id) {
-    return redirect("/");
-  }
 
   if (paymentError) {
     return (

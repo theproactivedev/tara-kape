@@ -2,6 +2,7 @@
 
 import { SubmitEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
 
 interface SignInFormData {
   email: string;
@@ -14,6 +15,9 @@ const initialFormData: SignInFormData = {
 };
 
 export default function SignInForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -48,7 +52,14 @@ export default function SignInForm() {
       
       setSuccess(true);
       setFormData(initialFormData);
-      window.location.href = "/";
+      
+      if (signInResult?.ok) {
+        if (callbackUrl.includes('/checkout') || callbackUrl.includes('/payment') || callbackUrl.includes('/payment/success')) {
+          window.location.href = '/';
+        } else {
+          window.location.href = callbackUrl;
+        }
+      }
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : 'Something went wrong');
     } finally {
