@@ -59,17 +59,22 @@ const Header = () => {
         </button>
       </div>
 
-      {menuOpen && (
+      {menuOpen && session?.user && (
         <div className="border-pine/22 border-t px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
-            {['Link 1', 'Link 2', 'Link 3'].map((link) => (
-              <a key={link} href="#" className="text-coffee text-sm font-medium">
-                {link}
-              </a>
-            ))}
-            <a href="#" className="text-pine text-sm font-medium">
+            <a href="/cart" className="text-pine font-medium">
               Bag · {itemCount}
             </a>
+            <Button variant="ghost" onClick={() => signOut({ callbackUrl: "/" })} className="text-pine text-base font-medium justify-start pl-0 ">Sign out</Button>
+          </div>
+        </div>
+      )}
+
+      {menuOpen && !session?.user && (
+        <div className="border-pine/22 border-t px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-4">
+            <a href="/sign-up" className="text-pine font-medium">Sign Up</a>
+            <a href="/sign-in" className="text-pine font-medium">Sign In</a>
           </div>
         </div>
       )}

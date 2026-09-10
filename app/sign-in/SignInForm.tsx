@@ -68,8 +68,9 @@ export default function SignInForm() {
   }
 
   return (
-    <main className="bg-cream-deep text-pine w-full max-w-md rounded-3xl px-6 py-8 shadow-lg sm:px-8 mx-auto mt-16">
-      <div className="mb-7">
+    <main className="text-pine flex justify-center">
+      <div className="bg-cream-deep mx-4 my-8 w-full max-w-md rounded-3xl px-5 py-7 shadow-lg sm:mx-auto sm:my-16 sm:px-8 sm:py-8">
+        <div className="mb-7">
         <p className="text-terracotta font-mono text-xs tracking-widest uppercase">Join the roast</p>
         <h1 className="mt-2 font-serif text-4xl tracking-tight">Sign In.</h1>
       </div>
@@ -129,6 +130,7 @@ export default function SignInForm() {
           {isSubmitting ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
+      </div>
     </main>
   );
 }
