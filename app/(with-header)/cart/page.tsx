@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { Minus, Plus, ShoppingBag } from 'lucide-react';
 import { useEffect } from 'react';
 
-import Header from '@/components/shared/Header';
 import { updateCartItemQuantity } from '@/lib/actions/updateCartItemQuantity';
 import { useCartStore } from '@/store/cartStore';
 
@@ -58,9 +57,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="bg-cream text-pine min-h-screen">
-      <Header isLoggedIn={session?.user?.id} />
-
+    <>
       <main className="mx-auto max-w-6xl px-6 py-14 md:py-20">
         <div className="mb-10 flex items-end justify-between gap-4">
           <div>
@@ -247,6 +244,6 @@ export default function CartPage() {
           </div>
         )}
       </main>
-    </div>
+    </>
   );
 }

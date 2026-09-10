@@ -27,10 +27,7 @@ export default function Home() {
   }, [refreshCart, session?.user?.id]);
 
   return (
-    <div className="bg-cream text-pine min-h-screen">
-      {/* ================= NAV ================= */}
-      <Header isLoggedIn={session?.user?.id} />
-
+    <>
       {/* ================= HERO ================= */}
       <section className="mx-auto max-w-6xl px-6 pt-14 pb-20 md:pt-20 md:pb-28">
         <div className="grid items-center gap-12 md:grid-cols-2 md:gap-8">
@@ -283,6 +280,6 @@ export default function Home() {
           © {new Date().getFullYear()} Tara Kape
         </div>
       </footer>
-    </div>
+    </>
   );
 }

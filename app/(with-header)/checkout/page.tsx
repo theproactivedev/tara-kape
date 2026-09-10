@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import CheckoutPage from './CheckoutPage';
 import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';

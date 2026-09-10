@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useState } from "react";
 import LogoPine from '@/public/logo-pine.svg';
 import { Button } from "../ui/button";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useCartStore } from '@/store/cartStore';
 
-const Header = ({ isLoggedIn } : { isLoggedIn: string | undefined }) => {
+const Header = () => {
+  const { data: session } = useSession();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const cart = useCartStore((state) => state.cart);
   const itemCount = cart?.items?.length
@@ -24,7 +26,7 @@ const Header = ({ isLoggedIn } : { isLoggedIn: string | undefined }) => {
         </a>
 
         <div className="hidden items-center gap-5 md:flex">
-          {isLoggedIn
+          {session?.user
             ? (
               <>
                 <a

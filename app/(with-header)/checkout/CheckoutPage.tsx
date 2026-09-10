@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { SubmitEvent, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-import Header from '@/components/shared/Header';
 import {
   ShippingInformationInput,
   updateUserShippingInformation,
@@ -75,9 +74,7 @@ export default function CheckoutPage({ user } : { user: UserDocument | null }) {
   }
 
   return (
-    <div className="bg-cream text-pine min-h-screen">
-      <Header isLoggedIn={session?.user?.id} />
-
+    <>
       <main className="mx-auto max-w-6xl px-6 py-14 md:py-20">
         {!session?.user?.id ? (
           <section className="bg-cream-deep border-pine/15 mx-auto max-w-xl rounded-3xl border px-6 py-12 text-center shadow-lg sm:px-8">
@@ -261,6 +258,6 @@ export default function CheckoutPage({ user } : { user: UserDocument | null }) {
           </div>
         )}
       </main>
-    </div>
+    </>
   );
 }

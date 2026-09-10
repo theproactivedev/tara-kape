@@ -4,7 +4,6 @@ import { Coffee, ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripe/stripe-client';
-import Header from '@/components/shared/Header';
 import StripeCheckoutForm from './StripeCheckoutForm';
 import { useSession } from 'next-auth/react';
 
@@ -47,8 +46,7 @@ export default function CheckoutPage() {
 
   if (paymentError) {
     return (
-      <div className="bg-cream text-pine min-h-screen">
-        <Header isLoggedIn={session.user.id} />
+      <>
         <main className="mx-auto flex min-h-[calc(100vh-73px)] max-w-6xl items-center justify-center px-6 py-16">
           <div className="bg-cream-deep border-pine/15 w-full max-w-md rounded-3xl border px-8 py-12 text-center shadow-lg">
             <p className="text-terracotta font-mono text-xs tracking-[0.22em] uppercase">
@@ -60,14 +58,13 @@ export default function CheckoutPage() {
             <p className="text-coffee mt-3 text-sm leading-relaxed">{paymentError}</p>
           </div>
         </main>
-      </div>
+      </>
     );
   }
 
   if (!clientSecret) {
     return (
-      <div className="bg-cream text-pine min-h-screen">
-        <Header isLoggedIn={session.user.id} />
+      <>
         <main className="mx-auto flex min-h-[calc(100vh-73px)] max-w-6xl items-center justify-center px-6 py-16">
           <div className="bg-cream-deep border-pine/15 w-full max-w-md rounded-3xl border px-8 py-12 text-center shadow-lg">
             <div className="bg-terracotta/15 mx-auto flex h-14 w-14 items-center justify-center rounded-full">
@@ -87,14 +84,12 @@ export default function CheckoutPage() {
             </div>
           </div>
         </main>
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-cream text-pine min-h-screen">
-      <Header isLoggedIn={session.user.id} />
-
+    <>
       <main className="mx-auto max-w-6xl px-6 py-14 md:py-20">
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-16">
           <section className="pt-2">
@@ -146,6 +141,6 @@ export default function CheckoutPage() {
           </section>
         </div>
       </main>
-    </div>
+    </>
   );
 }
