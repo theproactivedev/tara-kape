@@ -8,13 +8,17 @@ import Shop from '@/components/shop/Shop';
 import Header from '@/components/shared/Header';
 import { GetAllProducts, getAllProducts, ProductWithId } from '@/lib/actions/getAllProducts';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { SubmitEvent, useEffect, useState } from 'react';
 import { useCartStore } from '@/store/cartStore';
+import { subscribe } from '@/lib/actions/subscribe';
 
 export default function Home() {
   const { data: session } = useSession();
   const [coffeeProducts, setCoffeeProducts] = useState<ProductWithId[] | []>([]);
   const refreshCart = useCartStore((state) => state.refreshCart);
+
+  const [email, setEmail] = useState("");
+  const [emailSuccessMsg, setEmailSuccessMsg] = useState("");
 
   useEffect(() => {
     getAllProducts().then((productResult: GetAllProducts) => {
@@ -25,6 +29,18 @@ export default function Home() {
 
     refreshCart(session?.user?.id);
   }, [refreshCart, session?.user?.id]);
+
+  async function handleSubscribeEmail(e: SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    await subscribe(email);
+    setEmailSuccessMsg("Thank you for subscribing!");
+    setEmail('');
+
+    setTimeout(() => {
+      setEmailSuccessMsg("");
+    }, 5000);
+  }
 
   return (
     <>
@@ -178,14 +194,15 @@ export default function Home() {
 
       {/* ================= NEWSLETTER ================= */}
       <section className="px-6 pb-24">
-        <div className="bg-cream-deep mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl px-8 py-14 text-center md:flex-row md:justify-between md:text-left">
-          <div>
+        <div className="bg-cream-deep mx-auto max-w-4xl rounded-3xl px-8 py-14 text-center md:flex-row md:justify-between md:text-left">
+          <div className="flex flex-row items-center gap-6">
+            <div>
             <h3 className="text-pine font-serif text-2xl">Get first dibs on new roasts.</h3>
             <p className="text-coffee mt-1 text-sm">
               One email a week, sent the morning we roast. No spam, ever.
             </p>
           </div>
-          <form className="flex w-full max-w-sm gap-2">
+          <form className="flex w-full max-w-sm gap-2" onSubmit={handleSubscribeEmail}>
             <label htmlFor="email" className="sr-only">
               Email address
             </label>
@@ -195,6 +212,8 @@ export default function Home() {
               required
               placeholder="you@example.com"
               className="focus-ring border-coffee/44 text-pine w-full rounded-full border bg-white/60 px-4 py-2.5 text-sm"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <button
               type="submit"
@@ -203,7 +222,14 @@ export default function Home() {
               Subscribe
             </button>
           </form>
+          </div>
+          {emailSuccessMsg &&
+            <div className="mt-3 text-right text-sm mr-6 text-terracotta">
+              {emailSuccessMsg}
+            </div>
+          }
         </div>
+        
       </section>
 
       {/* ================= FOOTER ================= */}
