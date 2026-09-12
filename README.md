@@ -1,24 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tara Kape
 
-## Getting Started
+Tara Kape is a small-batch coffee e-commerce application built with Next.js. It presents weekly coffee roasts, tells the story behind each batch, and gives customers a simple way to browse products, manage a cart, sign in, and complete checkout.
 
-First, run the development server:
+## Features
+
+- Coffee storefront with featured products and origin information
+- Product browsing and cart management
+- User authentication and account-aware cart refresh
+- Checkout and payment processing with Stripe
+- Product and user data backed by MongoDB and Mongoose
+- Coffee imagery managed through Cloudinary
+- Newsletter subscription form powered by Resend
+- Responsive design with Tailwind CSS and reusable UI components
+
+## Home page
+
+`app/(with-header)/page.tsx` is the main Tara Kape storefront page. It combines the hero section, coffee origin marquee, product shop, roasting process, customer quote, newsletter signup, and footer. It also loads products, refreshes the signed-in user's cart, and handles newsletter subscriptions.
+
+## Packages
+
+### Application framework
+
+- **Next.js** - React framework for the application, routing, server actions, and optimized images
+- **React** and **React DOM** - UI rendering
+- **TypeScript** - Static typing
+
+### Authentication and data
+
+- **next-auth** - Authentication and session management
+- **@auth/mongodb-adapter** - MongoDB adapter for NextAuth
+- **mongoose** - MongoDB object modeling
+- **bcryptjs** - Password hashing
+- **zustand** - Client-side state management, including the shopping cart
+
+### Payments and communication
+
+- **stripe** - Server-side payment and checkout integration
+- **@stripe/stripe-js** - Stripe.js client library
+- **@stripe/react-stripe-js** - React components for Stripe Elements
+- **resend** - Newsletter and email delivery
+
+### Media, icons, and UI
+
+- **cloudinary** - Image and photo storage
+- **lucide-react** - Icons used throughout the interface
+- **shadcn** - UI component tooling
+- **@base-ui/react** - Accessible UI primitives
+- **class-variance-authority** - Variant-based component styling
+- **clsx** - Conditional class name composition
+- **tailwind-merge** - Safe merging of Tailwind CSS classes
+- **tw-animate-css** - Tailwind CSS animations
+
+### Styling and development
+
+- **Tailwind CSS** - Utility-first styling
+- **@tailwindcss/postcss** - Tailwind CSS PostCSS integration
+- **ESLint** and **eslint-config-next** - Code quality and Next.js linting
+- **Prettier** and **prettier-plugin-tailwindcss** - Code formatting
+- **@types/node**, **@types/react**, and **@types/react-dom** - TypeScript type definitions
+
+## Getting started
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev      # Start the development server
+npm run build    # Create a production build
+npm run start    # Start the production server
+npm run lint     # Run ESLint
+```
+
+## Environment variables
+
+Create a `.env.local` file and configure the credentials required by the enabled services, including MongoDB, NextAuth, Cloudinary, Stripe, and Resend. Keep secret keys out of source control.
+
+Required variables: `MONGODB_URI`, `GITHUB_ID`, `GITHUB_SECRET`, `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `CLOUDINARY_URL`, `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET`, and `RESEND_API_KEY`.
 
 ## Stripe webhook setup
 
@@ -28,22 +98,4 @@ Set `STRIPE_WEBHOOK_SECRET` to the signing secret for:
 /api/webhooks/stripe
 ```
 
-Subscribe the endpoint to `payment_intent.succeeded`, `payment_intent.payment_failed`,
-and `payment_intent.canceled`. Payment totals are calculated server-side from the
-authenticated user's cart. The persisted cart is cleared only after a verified
-successful-payment webhook; failed and canceled payments preserve the cart for retry.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Subscribe the endpoint to `payment_intent.succeeded`, `payment_intent.payment_failed`, and `payment_intent.canceled`. Payment totals are calculated server-side from the authenticated user's cart. The persisted cart is cleared only after a verified successful-payment webhook; failed and canceled payments preserve the cart for retry.
